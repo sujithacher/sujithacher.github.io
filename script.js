@@ -106,6 +106,34 @@ animateProjects();
 // Listen for scroll events for projects
 window.addEventListener('scroll', animateProjects);
 
+// Animate highlight cards on scroll
+const highlightCards = document.querySelectorAll('.highlight-card');
+
+const animateHighlights = () => {
+    highlightCards.forEach(card => {
+        const cardTop = card.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+
+        if (cardTop < windowHeight - 100) {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }
+    });
+};
+
+// Set initial state for highlight cards
+highlightCards.forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+});
+
+// Initial check for highlight cards in viewport
+animateHighlights();
+
+// Listen for scroll events for highlights
+window.addEventListener('scroll', animateHighlights);
+
 // Add loading animation for hero section
 window.addEventListener('load', () => {
     const heroContent = document.querySelector('.hero-content');
