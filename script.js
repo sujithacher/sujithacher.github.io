@@ -65,18 +65,30 @@ const animateTimeline = () => {
     });
 };
 
-// Set initial state for timeline items
+// Set initial state for timeline items - make them visible by default
 timelineItems.forEach(item => {
-    item.style.opacity = '0';
-    item.style.transform = 'translateX(-30px)';
+    item.style.opacity = '1';
+    item.style.transform = 'translateX(0)';
     item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
 });
 
-// Initial check for timeline items in viewport
-animateTimeline();
+// Apply animation effect only when scrolling
+window.addEventListener('scroll', () => {
+    timelineItems.forEach(item => {
+        const itemTop = item.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
 
-// Listen for scroll events for timeline
-window.addEventListener('scroll', animateTimeline);
+        if (itemTop < windowHeight - 100) {
+            // Item is in view, ensure it's fully visible
+            item.style.opacity = '1';
+            item.style.transform = 'translateX(0)';
+        } else {
+            // Item is out of view, apply subtle animation state
+            item.style.opacity = '0.8';
+            item.style.transform = 'translateX(-10px)';
+        }
+    });
+});
 
 // Animate project cards on scroll
 const projectCards = document.querySelectorAll('.project-card');
